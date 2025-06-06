@@ -18,7 +18,7 @@ function ProductsSection() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/products');
+            const response = await fetch('http://localhost:4000/api/products');
             const data = await response.json();
             setProducts(data);
         } catch (err) {
@@ -61,7 +61,7 @@ function ProductsSection() {
                 features: form.features.split(',').map(f => f.trim()), 
             };
 
-            const res = await fetch('http://localhost:3000/api/products/add', {
+            const res = await fetch('http://localhost:4000/api/products/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

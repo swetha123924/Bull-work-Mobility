@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+  @keyframes press {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } 
+  }
+  
+  .animate-press {
+    animation: press 8s linear infinite;
+  }
+
+
+@keyframes award {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+}
+  
+.animate-award {
+    animation: award 8s linear infinite;
+}

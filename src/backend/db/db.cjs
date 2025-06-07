@@ -6,14 +6,12 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+const DATABASE_URL='postgres://postgres:password@localhost:5432/Bull%20work%20mobility';
 
 const pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database:"Bull work mobility",
-    password: "password",
-    port: 5432,
-});
+    connectionString: DATABASE_URL,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  });
 
 pool.connect()
     .then(() => console.log("✅ Connected to PostgreSQL database"))

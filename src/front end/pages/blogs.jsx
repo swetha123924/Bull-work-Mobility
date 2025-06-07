@@ -9,7 +9,7 @@ function BlogDetail() {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/api/blogs/${blogId}`);
+                const response = await fetch(`http://localhost:10000/api/blogs/${blogId}`);
                 const data = await response.json();
                 if (data) {
                     setBlog(data);

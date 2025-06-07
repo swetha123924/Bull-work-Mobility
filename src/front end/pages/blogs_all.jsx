@@ -15,7 +15,7 @@ export default function MoreBlogs() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/blogs');
+                const response = await fetch('http://localhost:10000/api/blogs');
                 const data = await response.json();
                 setBlogs(data);
             } catch (error) {
@@ -35,8 +35,8 @@ export default function MoreBlogs() {
         try {
             const payload = { ...form };
             const url = editingBlogId
-                ? `http://localhost:4000/api/blogs/${editingBlogId}`
-                : 'http://localhost:4000/api/blogs';
+                ? `http://localhost:10000/api/blogs/${editingBlogId}`
+                : 'http://localhost:10000/api/blogs';
             const method = editingBlogId ? 'PUT' : 'POST';
 
             const res = await fetch(url, {
@@ -52,7 +52,7 @@ export default function MoreBlogs() {
                 setShowPopup(false);
                 setEditingBlogId(null);
                 setForm({title: '', information: '', time: '', image: '', description: '',recommended_img1: '', recommended_title1: '', recommended_des1: '',recommended_img2: '', recommended_title2: '', recommended_des2: ''});
-                const response = await fetch('http://localhost:4000/api/blogs');
+                const response = await fetch('http://localhost:10000/api/blogs');
                 const data = await response.json();
                 setBlogs(data);
             } else {
@@ -74,7 +74,7 @@ export default function MoreBlogs() {
         const confirmDelete = window.confirm('Are you sure you want to delete this blog?');
         if (confirmDelete) {
             try {
-                const res = await fetch(`http://localhost:4000/api/blogs/${id}`, {
+                const res = await fetch(`http://localhost:10000/api/blogs/${id}`, {
                     method: 'DELETE',
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -82,7 +82,7 @@ export default function MoreBlogs() {
                 });
 
                 if (res.ok) {
-                    const response = await fetch('http://localhost:4000/api/blogs');
+                    const response = await fetch('http://localhost:10000/api/blogs');
                     const data = await response.json();
                     setBlogs(data);
                 } else {

@@ -9,7 +9,7 @@ export default function LoginRegister(){
     const handleSubmit=async(e)=>{e.preventDefault();
     const endpoint=isLogin?'/api/auth/login':'/api/auth/register';
     try{
-        const response=await fetch(`http://localhost:4000${endpoint}`,
+        const response=await fetch(`http://localhost:10000${endpoint}`,
         {method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify(formData)
     });

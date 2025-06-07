@@ -9,7 +9,7 @@ const JWT_SECRET ='30850651b750966c4d38c7cd9407d4c29400a9b6e5f6ea966792b40117186
 if (!JWT_SECRET) {
   throw new Error('JWT_SECRET environment variable is not defined');
 }
-console.log('JWT Secret:', process.env.JWT_SECRET);
+console.log('JWT Secret:',JWT_SECRET);
 
 
 router.post('/register', async (req, res) => {

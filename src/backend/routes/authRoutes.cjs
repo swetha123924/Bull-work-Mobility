@@ -1,33 +1,74 @@
+require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { pool } = require('../db/db.cjs');
-require('dotenv').config();
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET ='30850651b750966c4d38c7cd9407d4c29400a9b6e5f6ea966792b40117186bf3';
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is not defined');
+}
+console.log('JWT Secret:', process.env.JWT_SECRET);
+
 
 router.post('/register', async (req, res) => {
-  const { username, email, password, role = 'user' } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const result = await pool.query(
-      'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, username, email, role, created_at',
-      [username, email, hashedPassword, role]
-    );
-
-    const user = result.rows[0];
-    res.status(201).json({ message: 'User registered successfully', user });
-  } catch (err) {
-    console.error(err);
-    if (err.code === '23505') {
-      return res.status(400).json({ message: 'Email already exists' });
+    const { username, email, password, role = 'user' } = req.body;
+  
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      const result = await pool.query(
+        'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, username, email, role, created_at',
+        [username, email, hashedPassword, role]
+      );
+      
+  
+      const user = result.rows[0];
+  
+      // ✅ Generate JWT after successful registration
+      const token = jwt.sign(
+        { id: user.id, username: user.username, role: user.role },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+  
+      // ✅ Save token in DB if needed
+      await pool.query('UPDATE users SET jwt_token = $1 WHERE id = $2', [token, user.id]);
+  
+      const { password: _, ...userWithoutPassword } = user;
+  
+      res.status(201).json({ message: 'User registered successfully', token, user: userWithoutPassword });
+    } catch (err) {
+      console.error(err);
+      if (err.code === '23505') {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+      res.status(500).json({ message: 'Error registering user' });
     }
-    res.status(500).json({ message: 'Error registering user' });
-  }
-});
+  });
+  
+// router.post('/register', async (req, res) => {
+//   const { username, email, password, role = 'user' } = req.body;
+
+//   try {
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const result = await pool.query(
+//       'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, username, email, role, created_at',
+//       [username, email, hashedPassword, role]
+//     );
+
+//     const user = result.rows[0];
+//     res.status(201).json({ message: 'User registered successfully', user });
+//   } catch (err) {
+//     console.error(err);
+//     if (err.code === '23505') {
+//       return res.status(400).json({ message: 'Email already exists' });
+//     }
+//     res.status(500).json({ message: 'Error registering user' });
+//   }
+// });
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;

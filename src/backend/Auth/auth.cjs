@@ -1,6 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const secret = process.env.JWT_SECRET;
+const secret ='30850651b750966c4d38c7cd9407d4c29400a9b6e5f6ea966792b40117186bf3';
 
 function verifyUser(req, res, next) {
   const authHeader = req.header('Authorization');
@@ -31,5 +31,4 @@ function verifyAdmin(req, res, next) {
 
 
 module.exports = { verifyAdmin };
-
 

@@ -10,7 +10,12 @@ dotenv.config();
 const app = express();
 const PORT =  10000;
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'https://harmonious-mousse-8f19ec.netlify.app/',
+    credentials: true
+  }
+));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

@@ -7,11 +7,13 @@ const ProductDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+    const BASE_URL = "https://bull-work-mobility.onrender.com"
+
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:10000/api/products/${slug}`);
+        const res = await fetch(`${BASE_URL}/api/products/${slug}`);
         const data = await res.json();
         setProduct(data);
       } catch (err) {

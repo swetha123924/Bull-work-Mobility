@@ -1,6 +1,5 @@
 import  pool  from '../db/db.js'
 
-// Add a product (Admin Only)
 export const addProduct = async (req, res) => {
   const {
     slug, title, image, description, features,

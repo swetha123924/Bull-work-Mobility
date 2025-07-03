@@ -7,6 +7,7 @@ function ProductsSection() {
     const [products, setProducts] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [isMobile, setIsMobile] = useState(false); // ← track screen size
+    const BASE_URL = "https://bull-work-mobility.onrender.com"
     const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem('user'));
@@ -20,7 +21,7 @@ function ProductsSection() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:10000/api/products');
+            const response = await fetch(`${BASE_URL}/api/products`);
             const data = await response.json();
             setProducts(data);
         } catch (err) {
@@ -72,7 +73,7 @@ function ProductsSection() {
                 features: form.features.split(',').map(f => f.trim())
             };
 
-            const res = await fetch('http://localhost:10000/api/products/add', {
+            const res = await fetch(`${BASE_URL}/api/products/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

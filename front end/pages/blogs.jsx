@@ -6,10 +6,12 @@ import Footer from './footer';
 function BlogDetail() {
     const { blogId } = useParams(); 
     const [blog, setBlog] = useState(null);
+    const BASE_URL = "https://bull-work-mobility.onrender.com"
+
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`http://localhost:10000/api/blogs/${blogId}`);
+                const response = await fetch(`${BASE_URL}/api/blogs/${blogId}`);
                 const data = await response.json();
                 if (data) {
                     setBlog(data);

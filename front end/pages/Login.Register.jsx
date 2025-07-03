@@ -8,8 +8,10 @@ export default function LoginRegister(){
     const handleChange=(e)=>{setFormData({...formData,[e.target.name]:e.target.value});};
     const handleSubmit=async(e)=>{e.preventDefault();
     const endpoint=isLogin?'/api/auth/login':'/api/auth/register';
+    const BASE_URL = "https://bull-work-mobility.onrender.com"
+
     try{
-        const response=await fetch(`http://localhost:10000${endpoint}`,
+        const response=await fetch(`${BASE_URL}${endpoint}`,
         {method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify(formData)
     });

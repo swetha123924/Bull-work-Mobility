@@ -10,6 +10,8 @@ function BlogsSection() {
         recommended_img2: '', recommended_title2: '', recommended_des2: ''
     });
     const [editingBlogId, setEditingBlogId] = useState(null);
+    const BASE_URL = "https://bull-work-mobility.onrender.com"
+
 
     const user = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('token');
@@ -17,7 +19,7 @@ function BlogsSection() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await fetch('http://localhost:10000/api/blogs');
+                const response = await fetch(`${BASE_URL}/api/blogs`);
                 const data = await response.json();
                 if (Array.isArray(data)) {
                     setBlogs(data);
@@ -40,8 +42,8 @@ function BlogsSection() {
         try {
             const payload = { ...form };
             const url = editingBlogId
-                ? `http://localhost:10000/api/blogs/${editingBlogId}`
-                : 'http://localhost:10000/api/blogs';
+                ? `${BASE_URL}/api/blogs/${editingBlogId}`
+                : `${BASE_URL}/api/blogs`;
             const method = editingBlogId ? 'PUT' : 'POST';
 
             const res = await fetch(url, {
@@ -81,7 +83,7 @@ function BlogsSection() {
         const confirmDelete = window.confirm('Are you sure you want to delete this blog?');
         if (confirmDelete) {
             try {
-                const res = await fetch(`http://localhost:10000/api/blogs/${id}`, {
+                const res = await fetch(`${BASE_URL}/api/blogs/${id}`, {
                     method: 'DELETE',
                     headers: {
                         Authorization: `Bearer ${token}`

@@ -114,7 +114,7 @@ function BlogsSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
                 {blogs.slice(0, 3).map((blog) => (
                     <div key={blog.id} className="bg-[#f9f9f9] rounded-xl shadow-md hover:shadow-xl transition duration-300 w-full max-w-[400px]">
-                        <img src={blog.image}   alt={blog.title}   className="w-full h-48 object-cover"/>
+                        <img src={blog.image}   alt={blog.title}   className="w-full h-48 object-contain"/>
                         <div className="p-6">
                             <h2 className="text-lg sm:text-xl font-bold text-[#A100B1] mb-2">{blog.title}</h2>
                             <p className="text-gray-700 text-sm mb-4 line-clamp-2">{blog.information}</p>

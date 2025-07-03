@@ -80,7 +80,7 @@ function BlogDetail() {
                     <button className="px-6 sm:px-7 py-2 text-base sm:text-xl bg-[#c80cda] rounded-full text-white font-semibold">
                         Order
                     </button>
-                    <button className="px-6 sm:px-7 py-2 text-base sm:text-xl font-semibold border-[#c80cda] border-2 rounded-full text-[#510059]">
+                    <button className="px-6 sm:px-7 py-2 text-base sm:text-xl font-semibold border-[#c80cda] border-2 rounded-full text-[#510059]" onClick={() => navigate("/demo")}>
                         Book Demo
                     </button>
                 </div>

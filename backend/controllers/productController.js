@@ -1,9 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const {pool} = require('../db/db.cjs');
-const { verifyAdmin } = require('../Auth/auth.cjs');
+import  pool  from '../db/db.js'
 
-router.post('/add', verifyAdmin, async (req, res) => {
+// Add a product (Admin Only)
+export const addProduct = async (req, res) => {
   const {
     slug, title, image, description, features,
     saving_description, yearly_savings, seven_year_savings,
@@ -28,9 +26,10 @@ router.post('/add', verifyAdmin, async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Failed to add product" });
   }
-});
+};
 
-router.get('/', async (req, res) => {
+// Get all products
+export const getAllProducts = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM products ORDER BY id DESC");
     res.json(result.rows);
@@ -38,9 +37,10 @@ router.get('/', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Error fetching products" });
   }
-});
+};
 
-router.get('/:slug', async (req, res) => {
+// Get product by slug
+export const getProductBySlug = async (req, res) => {
   const { slug } = req.params;
   try {
     const result = await pool.query("SELECT * FROM products WHERE slug = $1", [slug]);
@@ -52,9 +52,10 @@ router.get('/:slug', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Error fetching product" });
   }
-});
+};
 
-router.put('/:id', verifyAdmin, async (req, res) => {
+// Update a product (Admin Only)
+export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const {
     slug, title, image, description, features,
@@ -89,9 +90,10 @@ router.put('/:id', verifyAdmin, async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Update failed" });
   }
-});
+};
 
-router.delete('/:id', verifyAdmin, async (req, res) => {
+// Delete a product (Admin Only)
+export const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
     await pool.query("DELETE FROM products WHERE id = $1", [id]);
@@ -100,6 +102,4 @@ router.delete('/:id', verifyAdmin, async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Delete failed" });
   }
-});
-
-module.exports = router;
+};

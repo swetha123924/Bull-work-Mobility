@@ -129,7 +129,7 @@ const ProductDetail = () => {
         <h2 className="text-2xl sm:text-4xl font-bold mb-6">JOIN THE BULLWORK FAMILY</h2>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button className="px-6 py-3 text-lg bg-[#c80cda] text-white font-semibold rounded-full">Order</button>
-          <button className="px-6 py-3 font-semibold border-2 border-[#c80cda] text-[#c80cda] rounded-full">Book Demo</button>
+          <button className="px-6 py-3 font-semibold border-2 border-[#c80cda] text-[#c80cda] rounded-full" onClick={() => navigate("/demo")}>Book Demo</button>
         </div>
       </section>
 

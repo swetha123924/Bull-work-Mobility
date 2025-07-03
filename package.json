@@ -4,13 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"node src/backend/server.cjs\" \"vite\"",
+    "start": "concurrently \"node backend/server.js\" \"vite\"",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
-  }
-,
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
     "aos": "^2.3.4",
@@ -20,6 +19,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "lucide": "^0.511.0",
     "lucide-react": "^0.511.0",
     "pg": "^8.16.0",
@@ -28,6 +28,7 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.1",
     "react-slick": "^0.30.3",
+    "safe-buffer": "^5.2.1",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "^4.1.7"
   },

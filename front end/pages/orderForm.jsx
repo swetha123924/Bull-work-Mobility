@@ -150,7 +150,7 @@ function OrderForm() {
         <h1 className="text-3xl md:text-5xl font-bold mb-6">JOIN THE BULLWORK FAMILY</h1>
         <div className="flex flex-col md:flex-row justify-center gap-4">
           <button className="px-10 py-2 text-lg bg-[#570f5d] rounded-xl text-white font-semibold">Order</button>
-          <button className="px-7 py-2 text-lg font-semibold border-[#c80cda] border-2 rounded-xl">Book Demo</button>
+          <button className="px-7 py-2 text-lg font-semibold border-[#c80cda] border-2 rounded-xl" onClick={() => navigate("/demo")}>Book Demo</button>
         </div>
       </section>
 

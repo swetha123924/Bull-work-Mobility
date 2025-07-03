@@ -89,7 +89,7 @@ function Footer() {
                         <h3 className="text-lg font-semibold mb-3">Order</h3>
                         <ul className="space-y-1">
                             <li><a href="/order/form" className="hover:underline">Order Form</a></li>
-                            <li><a href="/order/book-demo" className="hover:underline">Book Demo</a></li>
+                            <li><a href="/order/book-demo" className="hover:underline" onClick={() => navigate("/demo")}>Book Demo</a></li>
                         </ul>
                     </div>
 

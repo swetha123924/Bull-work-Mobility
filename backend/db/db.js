@@ -1,24 +1,41 @@
-const express = require("express");
-const { Pool } = require("pg");
-require("dotenv").config();
 
-const app = express();
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import pkg from 'pg';
+import { log } from 'console';
 
-// Middleware
-app.use(express.json());
-const DATABASE_URL='postgres://postgres:password@localhost:5432/Bull%20work%20mobility';
+const { Pool } = pkg;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const pool = new Pool({
-    connectionString: DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-  });
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
+  ssl: {
+    rejectUnauthorized: false,
+  }
+});
+
+console.log('ENV:', {
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE
+});
+
 
 pool.connect()
-    .then(() => console.log("✅ Connected to PostgreSQL database"))
-    .catch((err) => console.error("❌ DB Connection Error:", err));
+  .then(async (client) => {
+    console.log("✅ Connected to PostgreSQL");
 
-// Create tables
-pool.query(`
+    await client.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(100) NOT NULL,
@@ -30,7 +47,7 @@ pool.query(`
             );
         `);
 
-    pool.query(`
+    await client.query(`
             CREATE TABLE IF NOT EXISTS blogs (
                 id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
@@ -47,7 +64,7 @@ pool.query(`
             );
         `);
 
-         pool.query(`
+    await client.query(`
            CREATE TABLE IF NOT EXISTS products (
                 id SERIAL PRIMARY KEY,
                 slug VARCHAR(50) UNIQUE NOT NULL,       
@@ -66,21 +83,21 @@ pool.query(`
 
         `);
 
-        pool.query(`
+    await client.query(`
             CREATE TABLE IF NOT EXISTS press_releases (
                 id SERIAL PRIMARY KEY,
                 image_url TEXT NOT NULL
             );
         `);
 
-     pool.query(`
+    await client.query(`
             CREATE TABLE IF NOT EXISTS awards (
                 id SERIAL PRIMARY KEY,
                 image_url TEXT NOT NULL
             );
         `);
 
-         pool.query(`
+    await client.query(`
             CREATE TABLE IF NOT EXISTS orders (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(100),
@@ -100,5 +117,8 @@ pool.query(`
         `);
 
         console.log("✅ All tables created or already exist.");
-
-module.exports =  {pool} ;
+    })
+    .catch((err) =>
+        console.log(err)
+    );
+export default pool;

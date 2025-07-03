@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const {pool} = require('../db/db.cjs');
+import  pool  from '../db/db.js'
 
-router.post('/', async (req, res) => {
+
+// Create a blog
+export const createBlog = async (req, res) => {
   try {
     const {
       title, information, time, image, description,
@@ -19,34 +19,38 @@ router.post('/', async (req, res) => {
         recommended_img1, recommended_title1, recommended_des1,
         recommended_img2, recommended_title2, recommended_des2]
     );
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error(err);
+    console.error('Error creating blog:', err);
     res.status(500).json({ error: 'Server error' });
   }
-});
+};
 
-router.get('/', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM blogs ORDER BY id DESC');
-        res.json(result.rows); 
-    } catch (err) {
-        console.error('Error fetching blogs:', err);
-        res.status(500).json({ error: 'Error fetching blogs', details: err.message });
-    }
-});
+// Get all blogs
+export const getAllBlogs = async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM blogs ORDER BY id DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching blogs:', err);
+    res.status(500).json({ error: 'Error fetching blogs', details: err.message });
+  }
+};
 
-  
-router.get('/:id', async (req, res) => {
+// Get blog by ID
+export const getBlogById = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM blogs WHERE id = $1', [req.params.id]);
     res.json(result.rows[0]);
   } catch (err) {
+    console.error('Error fetching blog:', err);
     res.status(500).json({ error: 'Error fetching blog' });
   }
-});
+};
 
-router.put('/:id', async (req, res) => {
+// Update blog
+export const updateBlog = async (req, res) => {
   try {
     const {
       title, information, time, image, description,
@@ -64,19 +68,21 @@ router.put('/:id', async (req, res) => {
         recommended_img2, recommended_title2, recommended_des2,
         req.params.id]
     );
+
     res.json(result.rows[0]);
   } catch (err) {
+    console.error('Error updating blog:', err);
     res.status(500).json({ error: 'Error updating blog' });
   }
-});
+};
 
-router.delete('/:id', async (req, res) => {
+// Delete blog
+export const deleteBlog = async (req, res) => {
   try {
     await pool.query('DELETE FROM blogs WHERE id = $1', [req.params.id]);
     res.json({ message: 'Blog deleted' });
   } catch (err) {
+    console.error('Error deleting blog:', err);
     res.status(500).json({ error: 'Error deleting blog' });
   }
-});
-
-module.exports = router;
+};
